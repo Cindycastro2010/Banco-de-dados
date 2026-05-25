@@ -1,0 +1,59 @@
+CREATE TABLE senioridade 
+( 
+ codsenioridade INT PRIMARY KEY AUTO_INCREMENT,
+ nome VARCHAR(50) NOT NULL
+); 
+
+CREATE TABLE tatuador 
+( 
+ idtatuador INT PRIMARY KEY AUTO_INCREMENT,
+ idsenioridade INT NOT NULL,
+ cpf VARCHAR(20) UNIQUE NOT NULL,
+ nometatuador VARCHAR(100) NOT NULL,
+ telefone VARCHAR(20) NOT NULL,
+ email VARCHAR(100),
+ datacontratacao DATE NOT NULL,
+ FOREIGN KEY (idsenioridade) REFERENCES senioridade(codsenioridade)
+); 
+
+CREATE TABLE cliente 
+( 
+ idcliente INT PRIMARY KEY AUTO_INCREMENT,
+ cpf VARCHAR(20) UNIQUE NOT NULL,
+ nome VARCHAR(100) NOT NULL,
+ telefone VARCHAR(20),
+ cidade VARCHAR(50),
+ uf VARCHAR(2),
+ datacadastro DATE NOT NULL
+); 
+
+CREATE TABLE estilo 
+( 
+ idestilo INT PRIMARY KEY AUTO_INCREMENT,
+ nome VARCHAR(50) NOT NULL
+); 
+
+CREATE TABLE agendamento 
+( 
+ idagendamento INT PRIMARY KEY AUTO_INCREMENT,
+ idcliente INT NOT NULL,
+ idtatuador INT NOT NULL,
+ descricaotatuagem VARCHAR(255) NOT NULL,
+ status VARCHAR(50) NOT NULL,
+ desenho_aprovado BOOLEAN NOT NULL,
+ dataagendamento DATE NOT NULL,
+ horaagendamento TIME NOT NULL,
+ valortatuagem DECIMAL(10,2) NOT NULL,
+ FOREIGN KEY (idcliente) REFERENCES cliente(idcliente),
+ FOREIGN KEY (idtatuador) REFERENCES tatuador(idtatuador)
+); 
+
+CREATE TABLE possui 
+( 
+ idtatuador INT,
+ idestilo INT,
+ dataestilo DATE,
+ PRIMARY KEY (idtatuador, idestilo),
+ FOREIGN KEY (idtatuador) REFERENCES tatuador(idtatuador),
+ FOREIGN KEY (idestilo) REFERENCES estilo(idestilo)
+);
